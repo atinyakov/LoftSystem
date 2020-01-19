@@ -1,12 +1,26 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const session = require('express-session');
+var FileStore = require('session-file-store')(session);
+
+require('./model');
+require('./passport-config');
+
 const app = express();
 
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.text());
+app.use(passport.initialize());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+  secret: 'keyboard cat2',
+  store: new FileStore(),
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 const router = express.Router();
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const formidable = require('formidable');
+const userHandler = require('../controller');
 // {
 //     firstName: String,
 //     id: Primary key,
@@ -20,9 +21,8 @@ const formidable = require('formidable');
 //         refreshTokenExpiredAt: Date (ms)
 // }
 
-router.post('/api/registration', (req, res) => {
-    console.log(req.body)
-})
+router.post('/api/registration', userHandler.saveNewUser)
+router.post('/api/login', userHandler.login)
 
 module.exports = router;
 
