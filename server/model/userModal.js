@@ -5,11 +5,11 @@ const uuidv1 = require("uuid/v1");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  firstName: String,
+  firstName: { type: String},
   id: { type: String, default: uuidv1() },
-  image: String,
-  password: String,
-  middleName: String,
+  image:{ type: String},
+  password:{ type: String},
+  middleName: { type: String},
   permission: {
     chat: {
       C: { type: Boolean, default: true },
@@ -30,15 +30,16 @@ const userSchema = new Schema({
       D: { type: Boolean, default: true }
     }
   },
-  surName: String,
-  username: String,
-  access_token: String,
-  refresh_token: String,
+  surName: { type: String},
+  username: { type: String},
+  accessToken: { type: String},
+  refreshToken: { type: String},
 //   accessTokenExpiredAt:{ type: Date, default: new Date(2020, 3, 20).getTime()},
 //   refreshTokenExpiredAt: { type: Date, default: new Date(2020, 3, 20).getTime()}
   accessTokenExpiredAt:{ type: Number, default: new Date(2020, 3, 20).getTime()},
   refreshTokenExpiredAt: { type: Number, default: new Date(2020, 3, 20).getTime()}
-});
+}
+);
 
 userSchema.methods.setPassword = function(pass) {
   var salt = bcrypt.genSaltSync(10);
@@ -48,8 +49,8 @@ userSchema.methods.setPassword = function(pass) {
 };
 
 userSchema.methods.setToken = function(token) {
-  this.access_token = token;
-  this.refresh_token = uuidv1();
+  this.accessToken = token;
+  this.refreshToken = uuidv1();
 };
 
 userSchema.methods.isValidPassword = function(password) {

@@ -4,13 +4,14 @@ const fs = require("fs");
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 var FileStore = require('session-file-store')(session);
 
 require('./model');
 require('./passport-config');
 
 const app = express();
-
+app.use(cookieParser())
 app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
