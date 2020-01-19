@@ -21,8 +21,10 @@ const userHandler = require('../controller');
 //         refreshTokenExpiredAt: Date (ms)
 // }
 
-router.post('/api/registration', userHandler.saveNewUser)
-router.post('/api/login', userHandler.login)
+router.post('/api/registration', userHandler.saveNewUser);
+router.post('/api/login', userHandler.login);
+// router.patch('/api/profile', uerHandler)
+
 
 module.exports = router;
 
