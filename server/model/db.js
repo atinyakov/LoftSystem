@@ -36,11 +36,16 @@ module.exports.getUserByName = function(username) {
 };
 
 module.exports.getUserByID = function(id) {
-  return userModal.findOne({id});
+  return userModal.findOne(id);
 };
 
 module.exports.getUsers = function() {
   return userModal.find();
+};
+
+module.exports.updateArticle = async function(data) {
+    const article = await newsModal.findOneAndUpdate({ id: data.id }, data);
+    return article;
 };
 
 module.exports.updateUser = async function(data) {
@@ -56,12 +61,20 @@ module.exports.updateUser = async function(data) {
 
 
 module.exports.addArticle = function(data) {
-    const article = new newsModal(data);
-    // console.log('destructureuser', user)
-    // user.setPassword(password);
-    article.save();
+    const article = new newsModal(data);;
+    return article.save();
+}
+
+module.exports.deleteArticle = function(id) {
+    // const article = new newsModal(data);;
+    // console.log(id)
+    return newsModal.findOneAndDelete({id});
 }
 
 module.exports.getNews = function() {
     return newsModal.find();
+}
+
+module.exports.deleteUser = function(id){
+    return userModal.findOneAndDelete({id})
 }
