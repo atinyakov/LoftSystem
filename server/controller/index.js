@@ -55,7 +55,7 @@ module.exports.getProfile = async function(req, res) {
   }
 };
 
-module.exports.updateProfile = async function(req, res) {
+module.exports.updateProfile = function(req, res) {
   const accessToken = req.cookies;
   try {
     const formidable = require("formidable");
@@ -70,11 +70,11 @@ module.exports.updateProfile = async function(req, res) {
       }
       // console.log('body', fields);
       const user = await db.getUserToken(accessToken);
-      const { id } = user;
-      const updatedUser = await db.updateUser({ id, ...fields });
+      // const { id } = user;
+      const updatedUser = await db.updateUser({ id: user.id, ...fields });
       // const updatedUser = Object.assign(id, req.body)
       // console.log(`User ${updatedUser.username} has been updated`);
-      res.json(updatedUser);
+      await res.json(updatedUser);
     });
   } catch (err) {
     console.error(err);

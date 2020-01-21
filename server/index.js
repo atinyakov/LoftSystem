@@ -6,11 +6,15 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 var FileStore = require('session-file-store')(session);
+const app = express();
+var server = require("http").createServer(app);
+var io = require("socket.io")(server);
+
 
 require('./model');
+// require('./socket');
 require('./passport-config');
 
-const app = express();
 app.use(cookieParser())
 app.use(passport.initialize());
 app.use(bodyParser.json());
@@ -28,6 +32,12 @@ const router = express.Router();
 app.use(express.static(path.join(__dirname, "..", "build")));
 
 // app.use(require("./admin"));
+app.use(require("./routes"));
+
+
+io.sockets.on("connection", socket => {
+  socket.emit("hello", "hi from server io!");
+});
 
 router.get("*", res => {
   res.sendFile = fs.readFileSync(
@@ -36,12 +46,6 @@ router.get("*", res => {
   );
 });
 
-app.post('/test', (req,res) => {
-    res.send(req.body);
-    console.log(req.body)
-})
-
-app.use(require("./routes/profile"));
 
 app.listen(3000, function() {
   console.log("Example app listening on port 3000!");
